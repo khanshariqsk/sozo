@@ -1,15 +1,6 @@
 const app = require("express")()
 const socketIO = require("socket.io")
-const cors = require("cors")
-
-// // app.use(cors())
-// app.use((req, res, next)=>{
-//     res.setHeader('Access-Control-Allow-Origin','*')
-//     res.setHeader('Access-Control-Allow-Headers','Origin,X-Requested-With,Content-Type,Accept,Authorization')
-//     res.setHeader('Access-Control-Allow-Methods','GET,POST,PATCH,DELETE')
-//     next()
-//   })
-
+const util = require('util');
 app.get("/",(req,res,next)=>{
     res.send("hello")
 })
@@ -17,6 +8,8 @@ const server = app.listen(8080,()=>{
     console.log("Listening to the Port 8080...")
 })
 const io = socketIO(server,{cors:{origin:"*"}})
+let prevState;
+let entry = true;
 
 io.on("connection",(socket)=>{
     // socket.on("data",(data)=>{
@@ -24,6 +17,15 @@ io.on("connection",(socket)=>{
     //     socket.broadcast.emit("dataRecievedFromServer",data)
     // })
     socket.on("dataFromFrontend",(data)=>{
-        socket.broadcast.emit("updatedDataFromBackend",data)
+       if(entry){
+           prevState = data;
+           entry = false;
+       }
+    
+        if(!util.isDeepStrictEqual(prevState, data)){
+            socket.broadcast.emit("updatedDataFromBackend",data)
+            prevState = data
+            console.log("a")
+        }
     })
 })

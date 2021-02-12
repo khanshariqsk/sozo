@@ -46,6 +46,7 @@ import NotesTextIcon from "../img/notes_text_icon.svg";
 import AddUserIcon from "../img/add_user_icon.svg";
 import io from "socket.io-client"
 const socket = io("http://localhost:8080");
+let interval;
 class Drawing extends React.Component {
   constructor(props) {
     super(props);
@@ -57,6 +58,8 @@ class Drawing extends React.Component {
     this.drawDiamond = this.drawDiamond.bind(this);
     this.drawHexagon = this.drawHexagon.bind(this);
     this.drawArrow = this.drawArrow.bind(this);
+    this.sendToBackend = this.sendToBackend.bind(this)
+
     this.colorlist =['#FFF1AA', '#F8AD96', '#EF5F9E','#F7C5DA','#EAE15F','#C094C1','#D5D2E2','#E2E2E2','#B8DECD','#58C2BF','#31BDDF','#AACDE9'];
     this.state = {
       id: 0,
@@ -77,28 +80,44 @@ class Drawing extends React.Component {
      
     // socket = io("http://localhost:8080");
   }
-  componentDidMount(){
+  // componentDidMount(){
     
-    // socket.emit("data",this.state)
-    // socket.on("dataRecievedFromServer",(data)=>{
-    //   this.setState({
-    //     ...this.state,
-    //     ...data
-    //   })
-    //   console.log(this.state)
-    // })
-    socket.on("updatedDataFromBackend",(data)=>{
-      console.log(data)
-      this.setState({
-        ...this.state,
-        ...data
+  //   // socket.emit("data",this.state)
+  //   // socket.on("dataRecievedFromServer",(data)=>{
+  //   //   this.setState({
+  //   //     ...this.state,
+  //   //     ...data
+  //   //   })
+  //   //   console.log(this.state)
+  //   // })
+  //   console.log("didMount")
+  //   socket.on("updatedDataFromBackend",(data)=>{
+  //     console.log(data)
+  //     this.setState({
+  //       ...this.state,
+  //       ...data
+  //     })
+  //   })
+  // }
+
+  sendToBackend(){
+    socket.emit("dataFromFrontend",this.state)
+  }
+  componentDidMount(){
+    interval = setInterval(this.sendToBackend,1000)
+       socket.on("updatedDataFromBackend",(data)=>{
+          this.setState({
+            ...this.state,
+            ...data
       })
     })
   }
-  componentDidUpdate(){
-    console.log("didUpdate")
-    socket.emit("dataFromFrontend",this.state)
+
+  componentWillUnmount(){
+    clearInterval(interval)
   }
+
+  
 
 
   drawRect() {
