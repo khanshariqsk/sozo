@@ -59,7 +59,6 @@ class Drawing extends React.Component {
     this.drawHexagon = this.drawHexagon.bind(this);
     this.drawArrow = this.drawArrow.bind(this);
     this.sendToBackend = this.sendToBackend.bind(this)
-
     this.colorlist =['#FFF1AA', '#F8AD96', '#EF5F9E','#F7C5DA','#EAE15F','#C094C1','#D5D2E2','#E2E2E2','#B8DECD','#58C2BF','#31BDDF','#AACDE9'];
     this.state = {
       id: 0,
@@ -104,7 +103,7 @@ class Drawing extends React.Component {
     socket.emit("dataFromFrontend",this.state)
   }
   componentDidMount(){
-    interval = setInterval(this.sendToBackend,1000)
+    interval = setInterval(this.sendToBackend,30)
        socket.on("updatedDataFromBackend",(data)=>{
           this.setState({
             ...this.state,
@@ -118,8 +117,6 @@ class Drawing extends React.Component {
   }
 
   
-
-
   drawRect() {
     this.setState({
       id: this.state.id + 1,
@@ -136,6 +133,7 @@ class Drawing extends React.Component {
       rectlst: this.state.rectlst.concat(props),
     });
   }
+  
   drawCircle() {
     this.setState({
       id: this.state.id + 1,
@@ -151,6 +149,7 @@ class Drawing extends React.Component {
       circles: this.state.circles.concat(props),
     });
   }
+  
   drawSquare() {
     this.setState({
       id: this.state.id + 1,
