@@ -17,7 +17,7 @@ function App() {
     setToken(token)
   }
   function logout(token){
-    setToken(true)
+    setToken(null)
   }
 
   let routes;

@@ -10,21 +10,29 @@ import TemplateIcon from "../img/tex-template.svg";
 import LogoutIcon from "../img/logout_icon.svg";
 import ComputerIcon from "../img/computer.svg";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import AuthContext from "../Auth/Auth-context"
 class Header extends React.Component {
   constructor(props) {
     super(props);
     this.toggeledContent = this.toggeledContent.bind(this);
+    this.logout = this.logout.bind(this);
+
     this.state = {
       humbergar: true,
       toggeled: true,
     };
   }
+  static contextType = AuthContext
   toggeledContent() {
     this.setState({
       toggeled: !this.state.toggeled,
       humbergar: !this.state.humbergar,
     });
   }
+  logout(){
+    this.context.logout()
+  }
+
 
   render() {
     const { humbergar } = this.state;
@@ -301,7 +309,7 @@ class Header extends React.Component {
 
                     <a className="dropdown-item" href="#">
                       <img src={LogoutIcon} width="15"/>
-                      <a style={{ color: "#fb081f", marginLeft: "12px" }}>LogOut</a>
+                      <a style={{ color: "#fb081f", marginLeft: "12px" }} onClick={this.logout}>LogOut</a>
                     </a>
                   </div>
                 </li>
