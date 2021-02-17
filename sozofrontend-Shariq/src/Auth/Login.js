@@ -36,6 +36,7 @@ const Login = () => {
     return (
         <form onSubmit={onSubmitHandler}>
             <div className="container pl-5 py-5">
+                <h1 style={{ alignItems: "center", marginBottom: "35px" }}>Login</h1>
                 <div className="form-group">
                     <label for="exampleInputEmail1">Email address</label>
                     <input type="email" onChange={dataChangeHandler} name="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />

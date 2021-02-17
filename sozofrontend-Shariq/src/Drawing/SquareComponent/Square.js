@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Stage, Shape, Layer, Transformer } from "react-konva";
 
-const Square = ({ shapeProps, isSelected, onSelect, onChange }) => {
+const Square = ({ shapeProps, isSelected, onSelect, onChange,col }) => {
   const shapeRef = React.useRef();
   const trRef = React.useRef();
 
@@ -12,17 +12,21 @@ const Square = ({ shapeProps, isSelected, onSelect, onChange }) => {
       trRef.current.getLayer().batchDraw();
     }
   }, [isSelected]);
+  const [getcolor,setIscolor] = useState(null);
+  function onColorChange(){
+    setIscolor(col);
+  }
 
   return (
     <>
       <Shape
-        onClick={onSelect}
-        onTap={onSelect}
+        onClick={onColorChange}
+        onDblClick={onSelect}
         ref={shapeRef}
         {...shapeProps}
         stroke="black"
         strokeWidth={1}
-        fill="white"
+        fill={getcolor ||"white"}
         opacity={0.8}
         
         draggable

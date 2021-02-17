@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Stage, RegularPolygon, Layer, Circle, Transformer } from "react-konva";
 
-const Hexagon = ({ shapeProps, isSelected, onSelect, onChange }) => {
+const Hexagon = ({ shapeProps, isSelected, onSelect, onChange,col }) => {
   const shapeRef = React.useRef();
   const trRef = React.useRef();
 
@@ -12,18 +12,22 @@ const Hexagon = ({ shapeProps, isSelected, onSelect, onChange }) => {
       trRef.current.getLayer().batchDraw();
     }
   }, [isSelected]);
+  const [getcolor,setIscolor] = useState(null);
+  function onColorChange(){
+    setIscolor(col);
+  }
 
   return (
     <>
       <RegularPolygon
       sides={6}
-        onClick={onSelect}
-        onTap={onSelect}
+        onClick={onColorChange}
+        onDblClick={onSelect}
         ref={shapeRef}
         {...shapeProps}
         stroke="black"
         strokeWidth={1}
-        fill="white"
+        fill={getcolor ||"white"}
         opacity={0.8}
         
         draggable

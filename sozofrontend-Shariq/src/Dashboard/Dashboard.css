@@ -74,6 +74,9 @@
   background-color: #fff;
   color: #000;
 }
+.more_list a:hover{
+  background-color: #fff;
+}
 .btn_more_opt {
   color: #fff;
 }
@@ -123,6 +126,7 @@
   color: #137ef9;
 }
 .more_list a {
+  padding: 9px, 10px !important;
   margin-bottom: 10px;
   font-size: 12px;
 }
@@ -211,8 +215,10 @@
   outline: none;
   background-color: #fff;
   color: #000;
+  box-shadow: none !important;
 }
 .cancel_btn:active {
+  background-color: #fff !important;
   outline: none;
   color: #000 !important;
 }
@@ -224,12 +230,36 @@
 .rename_btn {
   padding: 6px 25px;
   border-radius: 15px;
+  border: none;
 }
 .rename_btn:hover {
   background-color: #137ef9;
   color: #fff;
 }
+.rename_btn:focus{
+  background-color: #137ef9 !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+.rename_btn:hover{
+  background-color: #137ef9 !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+.rename_btn:active{
+  background-color: #137ef9 !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+.new_rename_box:focus{
+  box-shadow: none !important;
+}
+.close img{
+  width: 15px;
+  margin-right: 15px;
+}
 .close:focus {
+  color: #000;
   outline: none;
 }
 .rename_head {
@@ -259,7 +289,7 @@
   border-color: #137ef9 !important;
 }
 .get_btn:focus {
-  box-shadow: none;
+  box-shadow: none !important;
 }
 
 .can_share_btn {
@@ -370,10 +400,11 @@
   color: #137ef9;
 }
 .share_comment {
-  margin: 0px 15px;
+  margin: 0px 1px !important;
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 5px 12px;
+  height: auto !important;
 }
 
 .add_more_user_btn {
@@ -388,6 +419,12 @@
 .add_more_user_btn a {
   padding: 10px;
 }
+.add_collaboration.show{
+  transform: translate3d(190px, 18px , 0px) !important;
+  width: 440px;
+  border: 2px solid #ECF5FF;
+  border-radius: 8px;
+}
 .Collaboration_list:active {
   /* border-left: 4px solid #137EF9; */
 }
@@ -397,9 +434,9 @@
 .Collaboration_list .active {
   font-size: 15px;
   background-color: #ecf5ff !important;
-  border-bottom: #ecf5ff !important;
   color: #137ef9 !important;
   border-left: 4px solid #137ef9;
+  border-radius: 0px;
 }
 .Collaboration_list a {
   font-size: 15px;
@@ -433,8 +470,10 @@
 .people_drop_button:hover {
   color: #137ef9;
 }
-
-.Collaboration_list img {
+.Collaboration_list{
+  padding-top: 30px;
+}
+.collaboration_icon{
   width: 12px;
   margin-right: 10px;
 }
@@ -448,14 +487,15 @@
 .add-lbl-Collaborations {
   margin-left: 10px;
 }
-.lbl-Shareable {
-  margin-left: 40px;
+.share_link{
+  left: 110px;
+  bottom: 23px;
 }
 .advance-section {
   margin-left: 10px;
 }
 .drop_input-img {
-  width: 16px;
+  width: 19px !important;
   margin-right: 10px;
 }
 .share_advance_btn:focus {
@@ -491,3 +531,35 @@
   right: 155px;
   /* border-bottom-color: rgb(0 0 0 / 26%); */
 }
+.dropdown-menu-arrow-collaboration{
+  /* top: -25px;
+  left: 50%;
+  width: 0;
+  height: 0;
+  position: relative; */
+}
+.dropdown-menu-arrow-collaboration:before,
+.dropdown-menu-arrow-collaboration:after{
+  content: "";
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  border-width: 7px 8px;
+  border-style: solid;
+  border-color: transparent;
+  z-index: 1001;
+}
+.dropdown-menu-arrow-collaboration:after {
+  bottom: 558px;
+  right: 434px;
+  border-bottom-color: #ffffff;
+  transform: rotate3d(-51, -50, 18, 
+  180deg
+  );
+}
+.dropdown-menu-arrow-collaboration:before {
+  bottom: 558px;
+  right: 434px;
+}
+

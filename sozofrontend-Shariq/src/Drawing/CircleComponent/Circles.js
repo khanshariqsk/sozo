@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Circle, Transformer } from "react-konva";
-const Circles = ({ shapeProps, isSelected, onSelect, onChange }) => {
+const Circles = ({ shapeProps, isSelected, onSelect, onChange,col }) => {
     const shapeRef = React.useRef();
     const trRef = React.useRef();
   
@@ -11,17 +11,21 @@ const Circles = ({ shapeProps, isSelected, onSelect, onChange }) => {
         trRef.current.getLayer().batchDraw();
       }
     }, [isSelected]);
+    const [getcolor,setIscolor] = useState(null);
+   function onColorChange(){
+    setIscolor(col);
+  }
   
     return (
       <>
         <Circle
-          onClick={onSelect}
-          onTap={onSelect}
+          onClick={onColorChange}
+          onDblClick={onSelect}
           ref={shapeRef}
           {...shapeProps}
           stroke="black"
           strokeWidth={1}
-          fill="white"
+          fill={getcolor ||"white"}
           opacity={0.8}
           
           draggable

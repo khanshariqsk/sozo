@@ -721,6 +721,7 @@ padding-left: 14px;
 }
 .header_comment:hover{
     background-color: #fff;
+    color: #000;
 }
 .user_comment p{
     white-space: break-spaces;
@@ -758,6 +759,9 @@ padding-left: 14px;
 .add_comment button:focus{
     outline: none !important;
 }
+.comment_section:active{
+    background-color: #fff;
+}
 .close_team i{
     margin: 9px 15px;
     float: right;
@@ -791,14 +795,18 @@ padding-left: 14px;
     background-color: #fff;
 }
 .team_view .team_user_icon{
-    transform: translate(80px, 100px);
+    transform: translate(110px, 100px);
 }
 .team_view label{
-    transform: translate(-36px, 180px);
+    transform: translate(-10px, 174px) !important;
+    color: #000;
+}
+.team_view label:active{
+    color: #000;
 }
 .team_view button{
     border: none;
-    transform: translate(-153px, 220px);
+    transform: translate(104px, 140px);
     background: #137EF9;
     box-shadow: 0px 10px 10px #2323230D;
     border-radius: 10px;

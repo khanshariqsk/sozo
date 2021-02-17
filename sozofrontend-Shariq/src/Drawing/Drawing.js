@@ -2,13 +2,15 @@ import React from "react";
 import "./Drawing.css";
 import Sketch from "react-p5";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Square from "./Square";
-import Rectangle from "./Rectangle";
-import Stars from "./Stars";
-import Circles from "./Circles";
-import Diamonds from "./Diamonds";
-import Hexagon from "./Hexagon";
-import Triangles from "./Triangles";
+import Square from "./SquareComponent/Square";
+import Rectangle from "./RectangleComponent/Rectangle";
+import Stars from "./StarComponent/Stars";
+import Circles from "./CircleComponent/Circles";
+import Diamonds from "./DiamondComponent/Diamonds";
+import Hexagon from "./HexagonComponent/Hexagon";
+import Triangles from "./TriangleComponet/Triangles";
+import TextDraw from "./TextComponent/TextDraw";
+// import TextEditeController from './TextComponent/TextEditeController';
 import { Stage, Layer, Arrow } from "react-konva";
 import Screen1 from "../img/screen1.svg";
 import Screen2 from "../img/screen2.svg";
@@ -44,6 +46,7 @@ import ZoomIn from "../img/zoom_in.svg";
 import ZoomOut from "../img/zoom_out.svg";
 import NotesTextIcon from "../img/notes_text_icon.svg";
 import AddUserIcon from "../img/add_user_icon.svg";
+import Konva from "konva";
 import io from "socket.io-client"
 const socket = io("http://localhost:8080");
 let interval;
@@ -58,7 +61,16 @@ class Drawing extends React.Component {
     this.drawDiamond = this.drawDiamond.bind(this);
     this.drawHexagon = this.drawHexagon.bind(this);
     this.drawArrow = this.drawArrow.bind(this);
-    this.sendToBackend = this.sendToBackend.bind(this)
+    this.typeText = this.typeText.bind(this);
+    this.handleTextDblClick = this.handleTextDblClick.bind(this);
+    this.handleTextEdit = this.handleTextEdit.bind(this);
+    this.handleTextareaKeyDown = this.handleTextareaKeyDown.bind(this);
+    this.sendToBackend = this.sendToBackend.bind(this);
+
+    const stageEl = React.createRef();
+    const layerEl = React.createRef();    
+    // this.checkDselect = this.checkDselect.bind(this);
+
     this.colorlist =['#FFF1AA', '#F8AD96', '#EF5F9E','#F7C5DA','#EAE15F','#C094C1','#D5D2E2','#E2E2E2','#B8DECD','#58C2BF','#31BDDF','#AACDE9'];
     this.state = {
       id: 0,
@@ -73,31 +85,16 @@ class Drawing extends React.Component {
       diamonds: [],
       hexagon: [],
       arrows: [],
+      texts: [],
+      isEditableMode: false,
+      txtEditableindex: 0,
+      mode: "brush",
+      stageEl : React.createRef(),
+      layerEl : React.createRef(),
       pickColor:null
     
     };
-     
-    // socket = io("http://localhost:8080");
   }
-  // componentDidMount(){
-    
-  //   // socket.emit("data",this.state)
-  //   // socket.on("dataRecievedFromServer",(data)=>{
-  //   //   this.setState({
-  //   //     ...this.state,
-  //   //     ...data
-  //   //   })
-  //   //   console.log(this.state)
-  //   // })
-  //   console.log("didMount")
-  //   socket.on("updatedDataFromBackend",(data)=>{
-  //     console.log(data)
-  //     this.setState({
-  //       ...this.state,
-  //       ...data
-  //     })
-  //   })
-  // }
 
   sendToBackend(){
     socket.emit("dataFromFrontend",this.state)
@@ -116,7 +113,6 @@ class Drawing extends React.Component {
     clearInterval(interval)
   }
 
-  
   drawRect() {
     this.setState({
       id: this.state.id + 1,
@@ -133,7 +129,6 @@ class Drawing extends React.Component {
       rectlst: this.state.rectlst.concat(props),
     });
   }
-  
   drawCircle() {
     this.setState({
       id: this.state.id + 1,
@@ -149,7 +144,6 @@ class Drawing extends React.Component {
       circles: this.state.circles.concat(props),
     });
   }
-  
   drawSquare() {
     this.setState({
       id: this.state.id + 1,
@@ -236,18 +230,83 @@ class Drawing extends React.Component {
       arrows: this.state.arrows.concat(1),
     });
   }
+  typeText() {
+    this.setState({
+      id: this.state.id + 1,
+    });
+    let props = {
+      x: 400,
+      y: 300,
+      text: "Type Somethings",
+      width: 200,
+      height: 100,
+      fontStyle:"normal",
+      fontFamily:"volvo",
+      textEditVisible: true,
+      fill:"black",
+      id: "text" + this.state.id,
+    };
+    this.setState({
+      texts: this.state.texts.concat(props),
+    });
+  }
+  handleTextDblClick = (e) => {
+    console.log(e);
+    const absPos = e.target.getAbsolutePosition();
+    console.log(e.target.index);
+   
+  };
+  handleTextEdit = (e) => {
+    const txts = this.state.texts.slice();
+    console.log(e);
+    txts[this.state.txtEditableindex].text = e.target.value;
+    this.setState({
+      texts: txts,
+    });
+  };
+  handleTextareaKeyDown = (e) => {
+    console.log(e);
+    if (e.keyCode === 13) {
+      const txts = this.state.texts.slice();
+      txts[this.state.txtEditableindex].textEditVisible = false;
+      this.setState({
+        texts: txts,
+      });
+    }
+  };
+  handleStageClick = (e) => {
+    console.log(e);
+    this.setState({ isDrawing: false });
+    const txts = this.state.texts.slice();
+    console.log(txts);
+    if(txts.length>0)
+    {
+    txts[this.state.txtEditableindex].textEditVisible = false;
+    this.setState({
+      texts: txts,
+    });
+  }
+
+  };
+  // checkDselect(){
+  //   this.setState({
+  //     ...this.state,
+  //     pickColor:null
+  //   })
+  // }
 
   render() {
     return (
       <>
       <header>
-        <div class="row " style={{ margin: "20px" }}>
-          <div class="col-md-3 rename_document_col">
+        <div className="row " style={{ margin: "20px" }}>
+          <div className="col-md-3 rename_document_col">
             <img src={Logo} width="20" />
             <span className="renameDoc">
               <b>Rename Document</b>
               <img src={SaveIcon} width="30" style={{marginLeft: "20px"}}/>
               <a
+              className="float-right"
                 href="#"
                 role="button"
                 id="dropdownMenuLink"
@@ -255,7 +314,7 @@ class Drawing extends React.Component {
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                <i className="fas fa-align-left float-right fa-canvasMenu"></i>
+                <i className="fas fa-align-left fa-canvasMenu"></i>
               </a>
               <div className="dropdown-menu canvas_opt_list" aria-labelledby="dropdownMenuLink">
                 <Link to="/drawing">
@@ -325,10 +384,10 @@ class Drawing extends React.Component {
                    </div>
                   </a>
                   <a className="dropdown-item user_comment_list" href="#" style={{padding: "10px"}}>
-                  <ul className="list-group" style={{margin: "10px;"}}>
+                  <ul className="list-group" style={{margin: "10px"}}>
                       <li className="list-group-item comment_list">
                         <div className="row comment_profile">
-                            <div className="col-md-2" style={{paddingRight: "0px;"}}><i className="fas fa-user"></i></div>
+                            <div className="col-md-2" style={{paddingRight: "0px"}}><i className="fas fa-user"></i></div>
                             <div className="col-md-4 comment_user_profile" ><h6><strong>John Doe</strong></h6></div>
                             <div className="col-md-6 comment_history"><p >3 Dec, 20 - 02:30 Am</p></div>
                          </div>
@@ -342,9 +401,9 @@ class Drawing extends React.Component {
                        </li>
                        <li className="list-group-item  comment_list">
                            <div className="row comment_profile">
-                                <div className="col-md-2" style={{paddingRight: "0px;"}}><i className="fas fa-user"></i></div>
+                                <div className="col-md-2" style={{paddingRight: "0px"}}><i className="fas fa-user"></i></div>
                                 <div className="col-md-4 comment_user_profile" ><h6><strong>John Doe</strong></h6></div>
-                                <div class="col-md-6 comment_history"><p>3 Dec, 20 - 02:30 Am</p></div>
+                                <div className="col-md-6 comment_history"><p>3 Dec, 20 - 02:30 Am</p></div>
                             </div>
                              <div className="user_comment">
                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
@@ -352,7 +411,7 @@ class Drawing extends React.Component {
                          </li>
                     </ul>
                 </a>
-                <a className="dropdown-item" href="#" style={{padding: "0px"}}>
+                <a className="dropdown-item comment_section" href="#" style={{padding: "0px"}}>
                  <div className="add_comment">
                    <input type="text" placeholder="Add Comment Here..."/>
                    <button>Add</button>
@@ -372,14 +431,14 @@ class Drawing extends React.Component {
                   <a className="dropdown-item header_team" href="#">
                   <div className="row">
                       <div className="col-md-8"> 
-                          <h5 style={{margin: "10px;"}}><b>Teams</b></h5>
+                          <h5 style={{margin: "10px"}}><b>Teams</b></h5>
                        </div>
                        <div className="col-md-4 close_team">
                             <i className="far fa-times"></i>
                         </div>
                     </div>
                   </a>
-                <a className="dropdown-item team_view" href="#">
+                <a className="team_view" href="#">
                 <img src={TeamUser} className="team_user_icon"/>
                      <label>No Added Yet!</label>
                      <button className="btn_add_people"><img src={AddUserIcon}/>Add People</button>
@@ -398,7 +457,7 @@ class Drawing extends React.Component {
                   <a className="dropdown-item notes_header" href="#">
                   <div className="row">
                       <div className="col-md-8"> 
-                          <h5 style={{margin: "10px;"}}><b>Notes</b></h5>
+                          <h5 style={{margin: "10px"}}><b>Notes</b></h5>
                        </div>
                        <div className="col-md-4 close_team">
                             <i className="far fa-times"></i>
@@ -407,8 +466,8 @@ class Drawing extends React.Component {
                   </a>
                 <a className="dropdown-item notes_list_opt" href="#" style={{padding: "0px"}}>
                 <ul className="list-group list-group-horizontal notes_opt">
-                  <li class="list-group-item">
-                  <select className="form-control" style={{width: "111px;"}} name="cars" id="cars">
+                  <li className="list-group-item">
+                  <select className="form-control" style={{width: "111px"}} name="cars" id="cars">
                         <option value="volvo">Body</option>
                         <option value="saab">Saab</option>
                         <option value="opel">Opel</option>
@@ -435,15 +494,17 @@ class Drawing extends React.Component {
           </div>
         </div>
       </header>
-        <div class="row">
-          <div class="col-md-1" style={{padding: "50px 0px 0px 40px"}}>
-            <div class="sidebar">
-              <ul class="list-group draw_icon">
-                <li class="active">
+        <div className="row">
+          <div className="col-md-1" style={{padding: "50px 0px 0px 40px"}}>
+            <div className="sidebar">
+              <ul className="list-group draw_icon">
+                <li className="active">
                  <img src={CursorIcon} style={{padding: "6px 0px", width: "30px"}}/>
                 </li>
                 <li>
-                <img src={TextIcon} style={{padding: "6px 0px", width: "30px"}}/>
+                    <a  onClick={this.typeText}>                
+                       <img src={TextIcon} style={{padding: "6px 0px", width: "30px"}}/>
+                    </a>
                 </li>
                 <li className="nav-item dropdown">
                   <a  id="navbarDropdown"
@@ -484,7 +545,7 @@ class Drawing extends React.Component {
                   >
                     <a className="" href="#" onClick={this.drawRect}>
                       <i
-                        class="fal fa-rectangle-wide shape-rectangle"
+                        className="fal fa-rectangle-wide shape-rectangle"
                         onClick={this.drawRect}
                       ></i>
                     </a>
@@ -496,14 +557,14 @@ class Drawing extends React.Component {
                     </a>
                     <a className="" href="#">
                       <i
-                        class="fal fa-diamond shape-diamond"
+                        className="fal fa-diamond shape-diamond"
                         onClick={this.drawDiamond}
                       ></i>
                     </a>
 
                     <a className="" href="#">
                       <i
-                        class="fal fa-triangle shape-triangle"
+                        className="fal fa-triangle shape-triangle"
                         onClick={this.drawTriangle}
                       ></i>
                     </a>
@@ -511,19 +572,19 @@ class Drawing extends React.Component {
                     <div>
                       <a className="" href="#" onClick={this.drawStar}>
                         <i
-                          class="fal fa-star shape-star"
+                          className="fal fa-star shape-star"
                           onClick={this.drawStar}
                         ></i>
                       </a>
                       <a className="" href="#" onClick={this.drawSquare}>
                         <i
-                          class="fal fa-square shape-square"
+                          className="fal fa-square shape-square"
                           onClick={this.drawSquare}
                         ></i>
                       </a>
                       <a className="" href="#">
                         <i
-                          class="fal fa-hexagon shape-hexagon"
+                          className="fal fa-hexagon shape-hexagon"
                           onClick={this.drawHexagon}
                         ></i>
                       </a>
@@ -531,7 +592,7 @@ class Drawing extends React.Component {
                   </div>
                 </li>
                 <li>
-                  <a className="" href="#" onClick={this.drawArrow}>
+                  <a className="" href="#">
                    <img src={ArrowIcon}  onClick={this.drawArrow} style={{padding: "6px 0px", width: "30px"}}/>
                   </a>
                 </li>
@@ -540,8 +601,8 @@ class Drawing extends React.Component {
                 </li>
               </ul>
             </div>
-            <div class="sidebar_sub_menu">
-              <ul class="list-group draw_icon">
+            <div className="sidebar_sub_menu">
+              <ul className="list-group draw_icon">
                 <li className="nav-item dropdown">
                  <a id="navbarDropdown"
                   role="button"
@@ -576,13 +637,17 @@ class Drawing extends React.Component {
               </ul>
             </div>
           </div>
-          <div class="col-md-11 drawing" id="drawing">
+          <div className="col-md-11 drawing" id="drawing">
             <Stage
               width={1200}
               height={450}
               container="drawing"
+              ref={this.state.stageEl}
+              onClick={this.handleStageClick}
+              // onDblClick={this.checkDselect}
+              
             >
-              <Layer>
+              <Layer ref={this.state.layerEl}>
                 {this.state.circles &&
                   this.state.circles.map((circle,i) => <Circles 
                   col={this.state.pickColor}
@@ -622,7 +687,7 @@ class Drawing extends React.Component {
                       onChange={(newAttrs) => {
                         const rects = this.state.rectlst.slice();
                         rects[i] = newAttrs;
-                        // console.log(rects);
+                        console.log(rects);
                         this.setState({
                           rectlst: rects,
                         });
@@ -743,9 +808,54 @@ class Drawing extends React.Component {
                   }}
                   
                   />)}
+                   {this.state.texts &&
+                  this.state.texts.map((txt, i) => (
+                    <TextDraw
+                    key={i}
+                      shapeProps={txt}
+                      isSelected={txt.id === this.state.selectedId}
+                      onSelect={() => {
+                        const txts = this.state.texts.slice();
+                        // txts[i].fill=this.state.pickColor;
+                        this.setState({
+                          texts: txts,
+                          selectedId: txt.id,
+                        });
+                        console.log(this.state.selectedId);
+                      }}
+                      onChange={(newAttrs) => {
+                        const txts = this.state.texts.slice();
+                        console.log(txts);
+                        txts[i] = newAttrs;
+                        console.log(newAttrs);
+                        this.setState({
+                          texts: txts,
+                        });
+                      }}
+                      onDblClick={(e) => {
+                        const txts = this.state.texts.slice();
+                        const absPos = e.target.getAbsolutePosition();
+                        console.log("DOUBLE");
+                        txts[i].x = absPos.x;
+                        txts[i].y = absPos.y;
+                        txts[i].textEditVisible = true;
+                        this.setState({
+                          texts: txts,
+                          txtEditableindex: i,
+                        });
+                      }}
+                    />
+                  ))}
                 
               </Layer>
             </Stage>
+            {/* {this.state.texts &&
+              this.state.texts.map((txt, i) => (
+                <TextEditeController editableTxt={this.state.texts[this.state.txtEditableindex]}
+                TextEditHandle={this.handleTextEdit}
+                handleTextarea={this.handleTextareaKeyDown}
+                ></TextEditeController>
+              ))} */}
             <ul className="list-group list-group-horizontal shapes_tool">
             <li className="list-group-item">
             <img src={ChatShapes} width="25"/> 
@@ -768,13 +878,13 @@ class Drawing extends React.Component {
                 <li className="list-group-item demo_tag_list" style={{padding: "5px"}}>
                   <img src={DemoIcon}/>
                   <input type="text" placeholder="Demo tag"/>
-                  <i class="fas fa-circle"></i>
+                  <i className="fas fa-circle"></i>
                   <img src={DeleteTag} className="delete_demo_icon"/>
                 </li>
                 <li className="list-group-item demo_tag_list2" style={{padding: "5px"}}>
                   <img src={DemoIcon}/>
                   <input type="text" placeholder="Demo tag"/>
-                  <i class="fas fa-circle"></i>
+                  <i className="fas fa-circle"></i>
                   <img src={DeleteTag} className="delete_demo_icon"/>
                 </li>
                 </ul>
@@ -852,7 +962,7 @@ class Drawing extends React.Component {
                         <hr></hr>
                       </li>
                    </ul>
-                <button  class="btn_history">Clear All</button>
+                <button  className="btn_history">Clear All</button>
               </div>
             </li>
             <li className="list-group-item">

@@ -11,12 +11,12 @@ import LogoutIcon from "../img/logout_icon.svg";
 import ComputerIcon from "../img/computer.svg";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import AuthContext from "../Auth/Auth-context"
+
 class Header extends React.Component {
   constructor(props) {
     super(props);
     this.toggeledContent = this.toggeledContent.bind(this);
     this.logout = this.logout.bind(this);
-
     this.state = {
       humbergar: true,
       toggeled: true,
@@ -32,7 +32,6 @@ class Header extends React.Component {
   logout(){
     this.context.logout()
   }
-
 
   render() {
     const { humbergar } = this.state;
@@ -83,11 +82,13 @@ class Header extends React.Component {
                 >
                   <Link to="/drawing" className="new_whiteboard">
                     <button className="dropdown-item white_board" type="button">
+                      <span className="canvas_link">
                       <i
                         className="fas fa-desktop mr-2"
                         style={{ color: "#AAD2FF" }}
                       ></i>
                       New Whiteboard
+                      </span>
                     </button>
                   </Link>
                   <button className="dropdown-item new_folder" type="button">
@@ -168,12 +169,10 @@ class Header extends React.Component {
                     <input
                       type="text"
                       className="search_box"
-                      placeholder="Search.."
+                      placeholder="Search here..."
                       name="search"
                     />
-                    <button type="submit" className="search_btn">
-                      <i className="fa fa-search"></i>
-                    </button>
+                      <i className="fa fa-search search_btn"></i>
                   </a>
                 </li>
                 <li className="nav-item dropdown">
@@ -189,10 +188,10 @@ class Header extends React.Component {
                     <i className="fas fa-bell notification_btn"></i>
                   </a>
                   <div
-                    class="dropdown-menu dropdown-menu-arrow-notfy dropDown_notify dropdown-menu-right"
+                    className="dropdown-menu dropdown-menu-arrow-notfy dropDown_notify dropdown-menu-right"
                     aria-labelledby="navbarDropdown"
                   >
-                    <a class="dropdown-item">
+                    <a className="dropdown-item notify_header">
                       <h6>
                         <b>Notifications</b>
                         <label
@@ -206,21 +205,21 @@ class Header extends React.Component {
                         </label>
                         <span style={{ float: "right" }}>
                           <i
-                            class="fas fa-cog"
+                            className="fas fa-cog"
                             style={{ color: "#137EF9" }}
                           ></i>
                         </span>
                       </h6>
                     </a>
 
-                    <ul class="list-group">
-                      <li class="list-group-item" style={{ border: "none" }}>
-                        <a class="dropdown-item notification_list" href="#">
-                          <div class="row">
-                            <div class="col-md-2">
+                    <ul className="list-group">
+                      <li className="list-group-item" style={{ border: "none" }}>
+                        <a className="dropdown-item notification_list" href="#">
+                          <div className="row">
+                            <div className="col-md-2">
                               <img src={Group_user} width="35" />
                             </div>
-                            <div class="col-md-10">
+                            <div className="col-md-10">
                               <label style={{ marginBottom: "0px" }}>
                                 <b>John</b>{" "}
                                 <span style={{ color: "#B8B8B8" }}>Shared</span>{" "}
@@ -234,14 +233,14 @@ class Header extends React.Component {
                         </a>
                       </li>
                     </ul>
-                    <ul class="list-group">
-                      <li class="list-group-item" style={{ border: "none" }}>
-                        <a class="dropdown-item notification_list" href="#">
-                          <div class="row">
-                            <div class="col-md-2">
+                    <ul className="list-group">
+                      <li className="list-group-item" style={{ border: "none" }}>
+                        <a className="dropdown-item notification_list" href="#">
+                          <div className="row">
+                            <div className="col-md-2">
                               <img src={Group_user} width="35" />
                             </div>
-                            <div class="col-md-10">
+                            <div className="col-md-10">
                               <label style={{ marginBottom: "0px" }}>
                                 <b>John</b>{" "}
                                 <span style={{ color: "#B8B8B8" }}>Shared</span>{" "}
@@ -255,14 +254,14 @@ class Header extends React.Component {
                         </a>
                       </li>
                     </ul>
-                    <ul class="list-group">
-                      <li class="list-group-item" style={{ border: "none" }}>
-                        <a class="dropdown-item notification_list" href="#">
-                          <div class="row">
-                            <div class="col-md-2">
+                    <ul className="list-group">
+                      <li className="list-group-item" style={{ border: "none" }}>
+                        <a className="dropdown-item notification_list" href="#">
+                          <div className="row">
+                            <div className="col-md-2">
                               <img src={Group_user} width="35" />
                             </div>
-                            <div class="col-md-10">
+                            <div className="col-md-10">
                               <label style={{ marginBottom: "0px" }}>
                                 <b>John</b>{" "}
                                 <span style={{ color: "#B8B8B8" }}>Shared</span>{" "}

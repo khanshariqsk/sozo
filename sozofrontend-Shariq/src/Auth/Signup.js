@@ -35,6 +35,7 @@ const Signup = () => {
   return (
     <form onSubmit={onSubmitHandler}>
       <div className="container pl-5 py-5">
+        <h1 style={{ alignItems: "center", marginBottom: "35px" }}>Signup</h1>
         <div className="form-group">
           <label for="exampleInputEmail1">First Name</label>
           <input type="text" onChange={dataChangeHandler} name="firstname" className="form-control" id="exampleInputEmail1" placeholder="First Name" />
@@ -55,10 +56,6 @@ const Signup = () => {
         <div className="form-group">
           <label for="exampleInputPassword1">Confirm Password</label>
           <input type="password" onChange={dataChangeHandler} name="confirmpassword" className="form-control" id="exampleInputPassword1" placeholder="Password" />
-        </div>
-        <div className="form-group form-check">
-          <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-          <label className="form-check-label" for="exampleCheck1">Check me out</label>
         </div>
         <button type="submit" className="btn btn-primary">Submit</button>
       </div>

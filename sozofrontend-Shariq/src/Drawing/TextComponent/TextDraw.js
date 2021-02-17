@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Stage,Text, Layer, Circle,Transformer} from 'react-konva';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import { CKEditor } from '@ckeditor/ckeditor5-react';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const TextDraw = ({ shapeProps, isSelected, onSelect, onChange,onDblClick }) => {
     const shapeRef = React.useRef();
@@ -31,19 +31,19 @@ const TextDraw = ({ shapeProps, isSelected, onSelect, onChange,onDblClick }) => 
          
           fontSize= {20}
           draggable
-          onDblClick={onDblClick}
-          onDragEnd={(e) => {
+          // onDblClick={onDblClick}
+          // onDragEnd={(e) => {
             
            
-            onChange({
-              ...shapeProps,
-              x: e.target.x(),
-              y: e.target.y(),
+          //   onChange({
+          //     ...shapeProps,
+          //     x: e.target.x(),
+          //     y: e.target.y(),
               
-            });
+          //   });
             
            
-          }}
+          // }}
           onTransformEnd={(e) => {
             // transformer is changing scale of the node
             // and NOT its width or height
@@ -85,4 +85,4 @@ const TextDraw = ({ shapeProps, isSelected, onSelect, onChange,onDblClick }) => 
       </>
     );
   };
-export default TextDraw
+export default TextDraw;

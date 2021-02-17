@@ -11,9 +11,10 @@ import collaboration_icon from "../img/collaboration_icon.svg";
 import coll_user from "../img/coll_user.svg";
 import collaborat_icon from "../img/collaborat_icon.svg";
 import coll_tag from "../img/coll_tag.svg";
-import S1 from "../img/s1.JPG";
+import S1 from "../img/s1.svg";
 import sozo from "../img/sozo.jpg";
 import rect from "../img/rect.svg";
+import CloseNewDoc from "../img/close_new_doc.svg";
 class Dashboard extends React.Component {
   render() {
     return (
@@ -66,6 +67,7 @@ class Dashboard extends React.Component {
                   >
                     <a className="dropdown-item" href="#">
                       Open
+                      {/* <hr/> */}
                     </a>
                     <a
                       className="dropdown-item"
@@ -75,10 +77,12 @@ class Dashboard extends React.Component {
                       data-whatever="@mdo"
                     >
                       Rename
+                      {/* <hr/> */}
                     </a>
 
                     <a className="dropdown-item" href="#">
                       Delete
+                      {/* <hr/> */}
                     </a>
                     <a
                       className="dropdown-item"
@@ -87,9 +91,11 @@ class Dashboard extends React.Component {
                       data-target="#exampleModalCenter"
                     >
                       Share
+                      {/* <hr/> */}
                     </a>
                     <a className="dropdown-item" href="#">
                       Add to starred
+                      {/* <hr/> */}
                     </a>
                     <a className="dropdown-item" href="#">
                       Get Changed Notifications
@@ -111,7 +117,7 @@ class Dashboard extends React.Component {
                 className="modal-dialog modal-dialog-centered"
                 role="document"
               >
-                <div className="modal-content">
+                <div className="modal-content" style={{borderRadius: "15px"}}>
                   <div className="modal-header">
                     <h5 className="modal-title" id="exampleModalLongTitle">
                       <strong>Share with others</strong>
@@ -122,7 +128,8 @@ class Dashboard extends React.Component {
                       data-dismiss="modal"
                       aria-label="Close"
                     >
-                      <span aria-hidden="true">&times;</span>
+                        <img src={CloseNewDoc}/>
+                      {/* <span aria-hidden="true">&times;</span> */}
                     </button>
                   </div>
                   <div className="modal-body">
@@ -180,7 +187,7 @@ class Dashboard extends React.Component {
                         aria-haspopup="true"
                         aria-expanded="false"
                       >
-                        {" "}
+                        
                         <img src={share_profile_img} />
                         <i className="fas fa-caret-down"></i>
                       </button>
@@ -190,7 +197,7 @@ class Dashboard extends React.Component {
                           aria-labelledby="dropdownMenuButton"
                         >
                           <a className="dropdown-item active" href="#">
-                            {" "}
+                            
                             <img src={share_profile_img} />
                             Edit and Share
                           </a>
@@ -257,7 +264,7 @@ class Dashboard extends React.Component {
               aria-hidden="true"
             >
               <div className="modal-dialog" role="document">
-                <div className="modal-content" style={{ width: "130%" }}>
+                <div className="modal-content" style={{ width: "130%", borderRadius: "15px", height: "700px" }}>
                   <div className="modal-header" style={{ borderBottom: "0px" }}>
                     <h5 className="modal-title" id="exampleModalLabel">
                       Advanced Share Settings
@@ -268,109 +275,45 @@ class Dashboard extends React.Component {
                       data-dismiss="modal"
                       aria-label="Close"
                     >
-                      <span aria-hidden="true">&times;</span>
+                        <img src={CloseNewDoc}/>
+                      {/* <span aria-hidden="true">&times;</span> */}
                     </button>
                   </div>
                   <div className="modal-body" style={{ padding: "0px" }}>
                     <div className="d-flex align-items-start">
                       <div
-                        className="nav flex-column Collaboration_list nav-pills me-3"
-                        id="v-pills-tab"
-                        role="tablist"
+                        className="flex-column Collaboration_list nav-pills me-3"
                         aria-orientation="vertical"
                       >
                         <a
                           className="nav-link active"
-                          id="v-pills-home-tab"
-                          data-bs-toggle="pill"
                           href="#"
-                          role="tab"
-                          aria-controls="v-pills-home"
-                          aria-selected="true"
+                          id="navbarDropdown"
+                          role="button"
+                          data-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false"
                         >
-                          <img src={collaboration_icon} />
+                          <img src={collaboration_icon} className="collaboration_icon"/>
                           With Collaboration
                         </a>
-                        <a
-                          className="nav-link"
-                          id="v-pills-profile-tab"
-                          data-bs-toggle="pill"
-                          href="#"
-                          role="tab"
-                          aria-controls="v-pills-profile"
-                          aria-selected="false"
-                        >
-                          <img src={collaborat_icon} />
-                          With Collaboration
-                        </a>
-                        <a
-                          className="nav-link"
-                          id="v-pills-messages-tab"
-                          data-bs-toggle="pill"
-                          href="#"
-                          role="tab"
-                          aria-controls="v-pills-messages"
-                          aria-selected="false"
-                        >
-                          <img src={collaborat_icon} />
-                          With Collaboration
-                        </a>
-                        <a
-                          className="nav-link"
-                          id="v-pills-settings-tab"
-                          data-bs-toggle="pill"
-                          href="#"
-                          role="tab"
-                          aria-controls="v-pills-settings"
-                          aria-selected="false"
-                        >
-                          <img src={collaborat_icon} />
-                          With Collaboration
-                        </a>
-                        <a
-                          className="nav-link"
-                          id="v-pills-settings-tab"
-                          data-bs-toggle="pill"
-                          href="#"
-                          role="tab"
-                          aria-controls="v-pills-settings"
-                          aria-selected="false"
-                        >
-                          <img src={collaborat_icon} />
-                          With Collaboration
-                        </a>
-                      </div>
-                      <div className="tab-content" id="v-pills-tabContent">
                         <div
-                          className="tab-pane fade show active"
-                          id="v-pills-home"
-                          role="tabpanel"
-                          aria-labelledby="v-pills-home-tab"
+                          className="dropdown-menu dropdown-menu-right dropdown-menu-arrow-collaboration add_collaboration"
+                          aria-labelledby="navbarDropdown"
                         >
                           <h5 className="lbl-Collaborations">
                             Add Collaborations
-                          </h5>
+                          </h5> 
                           <div className="add-lbl-Collaborations">
-                            <input type="radio" id="People" value="People" />
-                            <label for="People" style={{ marginLeft: "10px" }}>
-                              People
-                            </label>
-                            <span className="lbl-Shareable">
-                              <input
-                                type="radio"
-                                id="Shareable Link"
-                                value="Shareable Link"
-                              />
-                              <label
-                                for="Shareable Link"
-                                style={{ marginLeft: "10px" }}
-                              >
-                                Shareable Link
-                              </label>
-                            </span>
-                            <br />
+                            <div className="form-check">
+                                <input type="radio" className="form-check-input" id="People" name="materialExampleRadios"/>
+                                <label className="form-check-label" for=" People"> People</label>
+                            </div>
+                             <div className="form-check share_link">
+                                <input type="radio" className="form-check-input" id="Shareable Link" name="materialExampleRadios"/>
+                                <label className="form-check-label" for="Shareable Link">Shareable Link</label>
+                             </div>
                           </div>
-
                           <div className="input-group advance-section">
                             <input
                               type="text"
@@ -387,14 +330,12 @@ class Dashboard extends React.Component {
                                 aria-haspopup="true"
                                 aria-expanded="false"
                               >
-                                {" "}
                                 <img
                                   src={share_profile_img}
                                   className="drop_input-img"
                                 />
                                 <i className="fas fa-caret-down"></i>
                               </button>
-                              <div className="dropdown">
                                 <div
                                   className="dropdown-menu add_more_user_btn"
                                   aria-labelledby="dropdownMenuButton"
@@ -404,7 +345,6 @@ class Dashboard extends React.Component {
                                     href="#"
                                     style={{ color: "#137EF9" }}
                                   >
-                                    {" "}
                                     <img src={share_profile_img} />
                                     Edit and Share
                                   </a>
@@ -421,29 +361,26 @@ class Dashboard extends React.Component {
                                     View
                                   </a>
                                 </div>
-                              </div>
                             </div>
-                          </div>
-
-                          <textarea
-                            rows="4"
-                            className="share_comment"
-                            placeholder="Add Custom Comments here..."
-                            style={{ width: "90%" }}
-                          ></textarea>
-                          <button
-                            type="button"
-                            className="btn btn-primary share_advance_btn"
-                            style={{ marginLeft: "360px" }}
-                          >
-                            Share
-                          </button>
-                          <h5>Collaborations</h5>
+                              <textarea
+                              rows="4"
+                              className="share_comment"
+                              placeholder="Add Custom Comments here..."
+                              style={{ width: "91%" }}
+                            ></textarea>
+                            <button
+                              type="button"
+                              className="btn btn-primary share_advance_btn"
+                              style={{ marginLeft: "278px", marginTop: "15px", padding: "10px 40px" }}
+                            >
+                              Share
+                            </button>
+                            <h5 style={{marginLeft: "5px"}}>Collaborations</h5>
                           <ul
                             className="list-group"
                             style={{
-                              marginBottom: "10px",
-                              marginRight: "30px",
+                             width: "90%",
+                             marginLeft: "5px"
                             }}
                           >
                             <li className="list-group-item coll_list">
@@ -519,32 +456,61 @@ class Dashboard extends React.Component {
                                 <div className="col-md-5">
                                   <p>Can Edit & Share</p>
                                 </div>
-                              </div>
-                            </li>
-                          </ul>
+                                </div>
+                                </li>
+                              </ul>
+                            </div>
+                            <div>
+                          </div>
                         </div>
-                        <div
-                          className="tab-pane fade"
-                          id="v-pills-profile"
-                          role="tabpanel"
-                          aria-labelledby="v-pills-profile-tab"
-                        ></div>
-                        <div
-                          className="tab-pane fade"
-                          id="v-pills-messages"
-                          role="tabpanel"
-                          aria-labelledby="v-pills-messages-tab"
+                        <a
+                          className="nav-link"
+                          id="v-pills-profile-tab"
+                          data-bs-toggle="pill"
+                          href="#"
+                          role="tab"
+                          aria-controls="v-pills-profile"
+                          aria-selected="false"
                         >
-                          ...
-                        </div>
-                        <div
-                          className="tab-pane fade"
-                          id="v-pills-settings"
-                          role="tabpanel"
-                          aria-labelledby="v-pills-settings-tab"
+                          <img src={collaboration_icon} className="collaboration_icon"/>
+                          With Collaboration
+                        </a>
+                        <a
+                          className="nav-link"
+                          id="v-pills-messages-tab"
+                          data-bs-toggle="pill"
+                          href="#"
+                          role="tab"
+                          aria-controls="v-pills-messages"
+                          aria-selected="false"
                         >
-                          ...
-                        </div>
+                        <img src={collaboration_icon} className="collaboration_icon"/>
+                          With Collaboration
+                        </a>
+                        <a
+                          className="nav-link"
+                          id="v-pills-settings-tab"
+                          data-bs-toggle="pill"
+                          href="#"
+                          role="tab"
+                          aria-controls="v-pills-settings"
+                          aria-selected="false"
+                        >
+                         <img src={collaboration_icon} className="collaboration_icon"/>
+                          With Collaboration
+                        </a>
+                        <a
+                          className="nav-link"
+                          id="v-pills-settings-tab"
+                          data-bs-toggle="pill"
+                          href="#"
+                          role="tab"
+                          aria-controls="v-pills-settings"
+                          aria-selected="false"
+                        >
+                         <img src={collaboration_icon} className="collaboration_icon"/>
+                          With Collaboration
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -561,7 +527,7 @@ class Dashboard extends React.Component {
               aria-hidden="true"
             >
               <div className="modal-dialog" role="document">
-                <div className="modal-content">
+                <div className="modal-content" style={{borderRadius: "15px"}}>
                   <div className="modal-header rename_head">
                     <h5 className="modal-title" id="exampleModalLabel">
                       <strong>Rename Document</strong>
@@ -572,7 +538,7 @@ class Dashboard extends React.Component {
                       data-dismiss="modal"
                       aria-label="Close"
                     >
-                      <span aria-hidden="true">&times;</span>
+                       <img src={CloseNewDoc}/>
                     </button>
                   </div>
                   <div className="modal-body">
@@ -583,8 +549,9 @@ class Dashboard extends React.Component {
                         </label>
                         <input
                           type="text"
-                          className="form-control"
+                          className="form-control new_rename_box"
                           id="recipient-name"
+                          style={{borderColor: "#D4E5F9"}}
                         />
                       </div>
                     </form>
@@ -616,7 +583,7 @@ class Dashboard extends React.Component {
               aria-hidden="true"
             >
               <div className="modal-dialog" role="document">
-                <div className="modal-content">
+                <div className="modal-content" style={{borderRadius: "15px"}}>
                   <div className="modal-header name_before">
                     <h5 className="modal-title" id="exampleModalLabel">
                       {" "}
@@ -670,10 +637,10 @@ class Dashboard extends React.Component {
               aria-hidden="true"
             >
               <div className="modal-dialog">
-                <div className="modal-content">
+                <div className="modal-content" style={{borderRadius: "15px"}}>
                   <div className="modal-header new_doc_head">
                     <h5 className="modal-title" id="exampleModalLabel">
-                      New Document
+                      <b>New Document</b>
                     </h5>
                     <button
                       type="button"
@@ -681,7 +648,7 @@ class Dashboard extends React.Component {
                       data-dismiss="modal"
                       aria-label="Close"
                     >
-                      <i className="far fa-times"></i>
+                      <img src={CloseNewDoc}/>
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
